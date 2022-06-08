@@ -1,5 +1,5 @@
-service: template-sls
-frameworkVersion: "2"
+service: template-ope-sls
+frameworkVersion: '3'
 provider:
   name: aws
   runtime: python3.9
@@ -8,18 +8,31 @@ provider:
   region: ${opt:region, "ap-northeast-1"}
   memorySize: 256
   timeout: 30
-  iamRoleStatements:
-    - Effect: "Allow"
-      Action:
-        - "secretsmanager:GetSecretValue"
-        - "ssm:GetParameter"
-        - "sts:AssumeRole"
-      Resource:
-        - "*"
+  iam:
+    role:
+      statements:
+        - Effect: 'Allow'
+          Action:
+            - 'secretsmanager:GetSecretValue'
+            - 'ssm:GetParameter'
+            - 'sts:AssumeRole'
+          Resource:
+            - '*'
+  environment: ${self:custom.environment.${self:provider.stage}}
 functions:
   hello:
     handler: src/handlers/hello.handler
+plugins:
+  - serverless-step-functions
+  - serverless-python-requirements
+  - serverless-prune-plugin
+stepFunctions: ${file(includes/state-machines.yml)}
 custom:
+  pythonRequirements:
+    usePoetry: true
+  prune:
+    automatic: true
+    number: 3
   environment:
     dev:
       STAGE: ${self:provider.stage}
@@ -27,15 +40,8 @@ custom:
       STAGE: ${self:provider.stage}
     prod:
       STAGE: ${self:provider.stage}
-  prune:
-    automatic: true
-    number: 3
-plugins:
-  - serverless-step-functions
-  - serverless-python-requirements
-  - serverless-prune-plugin
-stepFunctions: ${file(includes/state-machines.yml)}
 package:
   patterns:
-    - "!./**"
+    - '!./**'
     - ./src/**/*.py
+    - '!src/**/__pycache__/**'
