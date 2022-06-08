@@ -18,7 +18,7 @@ provider:
         - "*"
 functions:
   hello:
-    handler: src/handlers/handler.hello
+    handler: src/handlers/hello.handler
 custom:
   environment:
     dev:
