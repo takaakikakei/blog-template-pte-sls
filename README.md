@@ -7,4 +7,5 @@ Serverless Framework のテンプレート
 ```bash
 $ poetry install --no-interaction
 $ npm ci
+$ aws-vault exec プロファイル -- sls deploy --stage ステージ名
 ```
