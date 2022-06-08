@@ -1,0 +1,43 @@
+[tool.poetry]
+name = "blog-template-pte-sls"
+version = "0.1.0"
+description = ""
+authors = ["Takaaki Kakei <57389790+takaakikakei@users.noreply.github.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+requests = "^2.27.1"
+types-requests = "^2.27.12"
+injector = "^0.19.0"
+boto3 = "^1.21.20"
+boto3-stubs = {extras = ["dynamodb", "secretsmanager"], version = "^1.21.21"}
+typing-extensions = "^4.1.1"
+
+[tool.mypy]
+# common
+python_version = 3.9
+show_column_numbers = true
+show_error_context = true
+ignore_missing_imports = true
+check_untyped_defs = true
+disallow_untyped_defs = true
+# warning
+warn_return_any = true
+warn_unused_configs = true
+warn_redundant_casts = true
+
+[tool.poetry.dev-dependencies]
+black = "^22.1.0"
+mypy = "^0.941"
+flake8 = "^4.0.1"
+flake8-black = "^0.3.2"
+flake8-mypy = "^17.8.0"
+rope = "^0.23.0"
+isort = "^5.10.1"
+autoflake8 = "^0.3.1"
+pytest = "^7.1.0"
+pytest-cov = "^3.0.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
